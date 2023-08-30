@@ -94,7 +94,8 @@ pub fn create_user_if_unique(
                             users::username.eq(user_name),
                             users::password_hash.eq(pass.as_str()),
                         ))
-                        .execute(&mut connection);
+                        .execute(&mut connection)
+                        .expect("problems with inserting new user");
                 }
                 Err(_) => {
                     return CreateUserResult::PasswordNotValidForHash;
@@ -107,3 +108,5 @@ pub fn create_user_if_unique(
     }
     return CreateUserResult::Ok;
 }
+
+// todo show user posts, create user post, delete user post
