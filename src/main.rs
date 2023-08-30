@@ -2,6 +2,7 @@
 
 mod controller;
 mod model;
+mod schema;
 mod view;
 
 #[macro_use]
