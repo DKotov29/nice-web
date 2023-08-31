@@ -13,6 +13,7 @@ use diesel::{
     }
 };
 use dotenvy::dotenv;
+use rocket::fs::FileServer;
 
 #[macro_use]
 extern crate rocket;
@@ -25,8 +26,10 @@ async fn main() -> Result<(), rocket::Error> {
     let pool = establish_pool();
 
     let server = rocket::build()
-        .manage(pool);
-    controller::init_pages(server).launch().await?;
+        // .manage(pool)
+        .mount("/", FileServer::from("./static/"));
+    controller::init_pages(server)
+        .launch().await?;
     Ok(())
 }
 

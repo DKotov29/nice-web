@@ -6,7 +6,7 @@ diesel::table! {
         #[max_length = 255]
         title -> Varchar,
         description -> Text,
-        user_id -> Nullable<Int4>,
+        user_id -> Int4,
         is_bookmarked -> Bool,
     }
 }
