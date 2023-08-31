@@ -3,7 +3,6 @@
 mod controller;
 mod model;
 mod schema;
-mod view;
 
 use diesel::{
     PgConnection,
@@ -23,7 +22,7 @@ pub type DbPool = Pool<ConnectionManager<PgConnection>>;
 #[rocket::main]
 async fn main() -> Result<(), rocket::Error> {
     dotenv().ok();
-    let pool = establish_pool();
+    // let pool = establish_pool();
 
     let server = rocket::build()
         // .manage(pool)
