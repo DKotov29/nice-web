@@ -8,9 +8,11 @@ edition = "2021"
 [dependencies]
 yew = "0.20.0"
 diesel = { version = "2.1.1", features = ["postgres", "r2d2"] }
-rocket = { version = "=0.5.0-rc.3", features = ["secrets"] }
+rocket = { version = "=0.5.0-rc.3", features = ["secrets", "json"] }
 dotenvy = "0.15"
 bcrypt = "0.15"
 dotenv = "0.15.0"
 moka = "0.11.3"
 async-trait = "0.1.73"
+serde = { version = "1.0.188", features = ["derive"] }
+

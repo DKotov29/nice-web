@@ -1,12 +1,8 @@
 mod routes;
 use rocket::{Build, Rocket};
 
-use crate::controller::routes::signin::signin;
+use crate::controller::routes::{signin::signin, signup::signup};
 
-#[get("/signup")]
-fn signup() -> &'static str {
-    "Hello, signup!"
-}
 
 #[post("/signout")]
 fn signout() -> &'static str {

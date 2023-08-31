@@ -1,6 +1,7 @@
 use gloo::console::{self, console, Timer};
 use gloo::timers::callback::{Interval, Timeout};
-use yew::{html, Component, Context, Html, InputEvent, SubmitEvent, MouseEvent, Properties};
+use yew::{html, Component, Context, Html, InputEvent, SubmitEvent, MouseEvent, Properties, use_context, function_component};
+use yew_hooks::use_session_storage;
 use yew_router::prelude::*;
 
 
@@ -167,6 +168,8 @@ impl Component for App {
         let has_job = self.timeout.is_some() || self.interval.is_some();
         let new_stuff = self.input_val.eq("1") || self.input_val.eq("true");
 
+        let navigator = use_navigator();
+
         html! {
             <>
                 <div id="buttons">
@@ -190,6 +193,9 @@ impl Component for App {
                     <button onclick={ctx.link().callback(|_| Msg::ToggleStuff)}>
                         { "Toggle stuff" }
                     </button>
+
+                    <button onclick={navigator.push(&Route::Home)}>{ "Home" }</button>
+                    <button onclick={navigator.push(&Route::AdditionalPage)}>{ "Additional page" }</button>
                 </div>
                 <div id="wrapper">
                     <div id="some_stuff">
@@ -203,19 +209,12 @@ impl Component for App {
                     </div>
                 </div>
                 <div>
-                    <Main/>
+                    <BrowserRouter>
+                        <Switch<Route> render={switch} />
+                    </BrowserRouter>
                 </div>
             </>
         }
-    }
-}
-
-#[yew::function_component(Main)]
-fn app() -> Html {
-    html! {
-        <BrowserRouter>
-            <Switch<Route> render={switch} />
-        </BrowserRouter>
     }
 }
 
