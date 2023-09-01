@@ -62,6 +62,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "anymap"
+version = "1.0.0-beta.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "8f1f8f5a6f3d50d89e3797d7593a50f96bb2aaa20ca0cc7be1fb673232c91d72"
+
+[[package]]
 name = "anymap2"
 version = "0.13.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -364,6 +370,41 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "0369ee1ad671834580515889b80f2ea915f23b8be8d0daa4bbaf2ac5c7590835"
 dependencies = [
  "cipher",
+]
+
+[[package]]
+name = "darling"
+version = "0.13.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a01d95850c592940db9b8194bc39f4bc0e89dee5c4265e4b1807c34a9aba453c"
+dependencies = [
+ "darling_core",
+ "darling_macro",
+]
+
+[[package]]
+name = "darling_core"
+version = "0.13.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "859d65a907b6852c9361e3185c862aae7fafd2887876799fa55f5f99dc40d610"
+dependencies = [
+ "fnv",
+ "ident_case",
+ "proc-macro2",
+ "quote",
+ "strsim",
+ "syn 1.0.109",
+]
+
+[[package]]
+name = "darling_macro"
+version = "0.13.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "9c972679f83bdf9c42bd905396b6c3588a843a17f0f16dfcfa3e2c5d57441835"
+dependencies = [
+ "darling_core",
+ "quote",
+ "syn 1.0.109",
 ]
 
 [[package]]
@@ -1145,6 +1186,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "ident_case"
+version = "1.0.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b9e0384b61958566e926dc50660321d12159025e767c18e043daf26b70104c39"
+
+[[package]]
 name = "implicit-clone"
 version = "0.3.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1366,7 +1413,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "nice-web"
+name = "nice-web-backend"
 version = "0.1.0"
 dependencies = [
  "async-trait",
@@ -1375,8 +1422,11 @@ dependencies = [
  "dotenv",
  "dotenvy",
  "moka",
+ "rand",
+ "rand_chacha",
  "rocket",
  "serde",
+ "serde_json",
  "yew",
 ]
 
@@ -2125,6 +2175,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "strsim"
+version = "0.10.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "73473c0e59e6d5812c5dfe2a064a6444949f089e20eec9a2e5506596494e4623"
+
+[[package]]
 name = "subtle"
 version = "2.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2577,9 +2633,13 @@ version = "0.1.0"
 dependencies = [
  "gloo 0.10.0",
  "js-sys",
+ "serde",
+ "wasm-bindgen",
+ "web-sys",
  "yew",
  "yew-hooks",
  "yew-router",
+ "yewdux",
 ]
 
 [[package]]
@@ -2799,6 +2859,38 @@ version = "0.17.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "89b249cdb39e0cddaf0644dedc781854524374664793479fdc01e6a65d6e6ae3"
 dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn 1.0.109",
+]
+
+[[package]]
+name = "yewdux"
+version = "0.9.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "3c528544a814a0beb30059c8340eb78c88160141db788112b51a5a08098cef2d"
+dependencies = [
+ "anymap",
+ "async-trait",
+ "log",
+ "serde",
+ "serde_json",
+ "slab",
+ "thiserror",
+ "wasm-bindgen",
+ "web-sys",
+ "yew",
+ "yewdux-macros",
+]
+
+[[package]]
+name = "yewdux-macros"
+version = "0.9.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "cc318072e34a9083d651ecd126153e9f1c39ae705794ef953a30b561b5eaab6d"
+dependencies = [
+ "darling",
+ "proc-macro-error",
  "proc-macro2",
  "quote",
  "syn 1.0.109",

@@ -11,3 +11,7 @@ gloo = "0.10.0"
 js-sys = "0.3.64"
 yew-router = "0.17"
 yew-hooks = "0.2.0"
+yewdux = "0.9.3"
+serde = { version = "1.0.188", features = ["derive"] }
+wasm-bindgen = "0.2.87"
+web-sys = "0.3.64"

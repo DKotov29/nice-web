@@ -7,7 +7,7 @@ diesel::table! {
         title -> Varchar,
         description -> Text,
         user_id -> Int4,
-        is_bookmarked -> Bool,
+        bookmarked -> Bool,
     }
 }
 
@@ -23,7 +23,4 @@ diesel::table! {
 
 diesel::joinable!(post -> users (user_id));
 
-diesel::allow_tables_to_appear_in_same_query!(
-    post,
-    users,
-);
+diesel::allow_tables_to_appear_in_same_query!(post, users,);
