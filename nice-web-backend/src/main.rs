@@ -36,6 +36,7 @@ fn establish_pool() -> DbPool {
     let manager = ConnectionManager::<PgConnection>::new(url);
     Pool::builder()
         // .test_on_check_out(true)
+        .max_size(2)
         .build(manager)
         .expect("Could not build connection pool")
 }

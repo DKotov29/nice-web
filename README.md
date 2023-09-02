@@ -13,7 +13,8 @@ It have functionality for creating an account, signing in account, creating post
 (how to run your app? Please, write all the commands needed, down to git clone, cd, etc. A submitted task without such information will be considered failed)
 
 //you can create .env.template or whatever and propose to the users 
-1. Download zip of this project and extract it to some empty directory.
+0. Do you have installed PostgreSQL? If not, follow this instructions https://www.postgresql.org/download/
+1. Download zip of this project (https://github.com/DKotov29/nice-web/archive/refs/heads/master.zip) and extract it to some empty directory.
 2. todo
 1. fuck it. potentially its not needed for using/////// Edit in .env.template file credentials to yours. Change file name .env.template into .env 
 2. 

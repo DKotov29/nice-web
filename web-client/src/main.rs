@@ -11,6 +11,7 @@ use components::{
     Posts
 };
 use crate::api::Api;
+use crate::components::SignUp;
 
 
 #[derive(Default, Clone, PartialEq, Eq, Store)]
@@ -32,7 +33,7 @@ fn switch(routes: AppRoute) -> Html {
     match routes {
         AppRoute::SignIn => html! { <SignIn/> },
         AppRoute::Posts => html! { <Posts/> },
-        _ => html! { <h1>{ "Home" }</h1> }
+        _ => html! { <SignUp/> }
     }
 }
 
