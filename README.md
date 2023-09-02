@@ -34,8 +34,9 @@ It has the following features:
 5. ``$ cd web-client``
 6. ``$ trunk build``
 7. ``$ cd ..``
-8. ``$ cargo run``
-9. profit
+8. ``$ cd nice-web-backend``
+9. ``$ cargo run``
+10. profit
 
 
 ---
