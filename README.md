@@ -43,8 +43,9 @@ It has the following features:
 
 # How it works 
 
-Rocket was used as a framework for handling http requests from users and yew as a frontend library. Yew creates a client that works in user's browser. It will show all pages and will communicate with server api made by rocket.
-Then server will handle client's requests from client and contact to database through diesel library.
+The project was created to provide the following functionality: user account creation and the ability to create and write posts.
+As stated in the technical specification, the frontend utilizes the Yew framework, while interaction with the database is handled using Diesel. For the backend, Rocket was chosen as the framework.
+To facilitate communication between the server and client, a decision was made to employ a RESTful API. User authentication is implemented using sessions. Upon logging in, a unique key is generated and added to the cache, which is then used to ensure minimal authorization when accessing protected API endpoints. Posts are delivered in accordance with the project requirements.
 
 ``Project backend `` structure includes a "migrations" directory, which houses SQL files responsible for setting up the necessary tables.
 
