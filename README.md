@@ -16,7 +16,7 @@ It have functionality for creating an account, signing in account, creating post
 0. Do you have installed PostgreSQL? If not, follow this instructions https://www.postgresql.org/download/
 1. Download zip of this project (https://github.com/DKotov29/nice-web/archive/refs/heads/master.zip) and extract it to some empty directory.
 2. todo
-1. fuck it. potentially its not needed for using/////// Edit in .env.template file credentials to yours. Change file name .env.template into .env 
+1. fuck it. potentially it's not needed for using/////// Edit in .env.template file credentials to yours. Change file name .env.template into .env 
 2. 
 ---
 

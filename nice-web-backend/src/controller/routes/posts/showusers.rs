@@ -21,7 +21,7 @@ pub fn showusers(
                 Json(json!({
                     "posts" : posts
                 })),
-            ) // todo: check is needed, its possible that this will not be the same as in api.md
+            )
         }
         Err(err) => {
             eprintln!("Pool dont work, check it, error message: {}", err.to_string());

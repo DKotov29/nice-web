@@ -33,7 +33,7 @@ pub fn signup(pool: &State<Pool<ConnectionManager<PgConnection>>>, credentials: 
             (
                 Status::BadRequest,
                 json!({"error" : "Unfortunately, server cannot response due to database problem"}).to_string(),
-            ) // server side problem?
+            )
         }
     }
 }

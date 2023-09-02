@@ -35,7 +35,6 @@ fn establish_pool() -> DbPool {
     let url = std::env::var("DATABASE_URL").expect("DATABASE_URL must be set.");
     let manager = ConnectionManager::<PgConnection>::new(url);
     Pool::builder()
-        // .test_on_check_out(true)
         .max_size(1)
         .build(manager)
         .expect("Could not build connection pool")

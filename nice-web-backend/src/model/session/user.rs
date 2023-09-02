@@ -19,14 +19,12 @@ impl<'r> FromRequest<'r> for CachedUser {
     type Error = TempEnumForUser;
 
     async fn from_request(request: &'r Request<'_>) -> Outcome<Self, Self::Error> {
-        // it's better to put a session manager in Arc (?) todo
         let sessions = request
             .guard::<&State<SessionManager>>()
             .await
-            .expect("unexpected behavior");
+            .expect("unexpected behavior of getting sessionmanager");
 
         if let Some(session) = request.headers().get_one("session-token") {
-            // there's a one problem: every route will get cached user info, posiibly its not so bad
             let session_id = session.parse::<u128>();
             if let Ok(session_id) = session_id {
                 if let Some(user) = sessions.get_session(session_id) {

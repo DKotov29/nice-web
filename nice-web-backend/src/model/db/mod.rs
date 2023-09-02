@@ -110,7 +110,7 @@ pub fn show_user_posts<T: Connection<Backend = Pg> + diesel::connection::LoadCon
         .filter(post::user_id.eq(user_id))
         .order(post::bookmarked.desc())
         .load(&mut connection)
-        .expect("problems with getting user posts") // todo possibly its bad idea and Result is more preferable
+        .unwrap_or(vec![])
 }
 
 pub fn create_user_post<T: Connection<Backend = Pg> + diesel::connection::LoadConnection>(
