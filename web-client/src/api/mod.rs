@@ -40,7 +40,7 @@ impl Display for ApiError {
 
 impl Api {
     // probably it can be implemented by passing the base host value by the env! macros.
-    // and the value will be passed by build.rs script
+    // and the value will be passed by build script
     // rust compiler will set base host
     pub fn new(session: Option<Session>) -> Self {
         Self { session }

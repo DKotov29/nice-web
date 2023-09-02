@@ -1,4 +1,5 @@
 [workspace]
+
 members = [
     "nice-web-backend",
     "web-client"
