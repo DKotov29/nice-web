@@ -1,0 +1,62 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+html, body {
+    font-size: 100%;
+    font-family: Inter, sans-serif;
+}
+
+p {
+    margin: 0;
+}
+.button {
+    padding: 0.3rem;
+    border: none;
+    background: black;
+    font-family: inherit;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 500;
+    border-radius: 0.5rem;
+    transition: transform .1s;
+    cursor: pointer;
+    &:hover {
+        transform: translatey(-0.1rem)
+    }
+    &.red {
+        background-color: #DC3545;
+        color: white;
+    }
+}
+
+form {
+    width: 20%;
+    margin: 0 auto;
+
+    display: grid;
+}
+
+.posts {
+    width: 50%;
+    margin: 0 auto;
+    .post {
+        border: 0.1rem solid gray;
+        position: relative;
+        padding: .7rem;
+        border-radius: .5rem;
+        margin-bottom: 1rem;
+        &_content {
+            &_title {
+                font-size: 2rem;
+            }
+            &_description {
+                font-size: 1.4rem;
+                color: #444;
+            }
+        }
+        &_actions {
+            display: inline-flex;
+            gap: 1rem;
+            right: 0;
+        }
+    }
+}
