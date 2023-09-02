@@ -13,6 +13,9 @@ use yewdux::prelude::{Dispatch, use_store};
 use crate::api::types::Credentials;
 use crate::{AppRoute, State};
 use yew_router::prelude::Link;
+use yew_hooks::use_session_storage;
+
+use crate::api::types::Session;
 
 #[function_component(SignIn)]
 pub fn sign_in() -> Html {
@@ -20,6 +23,8 @@ pub fn sign_in() -> Html {
     // let mut status_message = Mutex::new(String::new());
 
     let (state, dispatch) = use_store::<State>();
+
+    let stored_session = use_session_storage::<Session>("session".to_owned());
 
     let username = use_node_ref();
     let password = use_node_ref();
@@ -29,10 +34,12 @@ pub fn sign_in() -> Html {
     let callback = {
         let username = username.clone();
         let password = password.clone();
+        let stored_session = stored_session.clone();
         move |e: SubmitEvent| {
             e.prevent_default();
             let state = state1.clone();
             let dispatch = dispatch1.clone();
+            let stored_session = stored_session.clone();
 
             let username = username.clone().cast::<HtmlInputElement>().unwrap();
             let password = password.clone().cast::<HtmlInputElement>().unwrap();
@@ -43,7 +50,8 @@ pub fn sign_in() -> Html {
                     password: password.value()
                 }).await {
                     Ok(session) => {
-                        dispatch.reduce_mut(|state| state.api.session = Some(session));
+                        dispatch.reduce_mut(|state| state.api.session = Some(session.clone()));
+                        stored_session.set(session);
                     },
                     Err(err) => {
                         alert(&format!("{:?}", err));

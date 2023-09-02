@@ -29,7 +29,7 @@ pub fn signup(pool: &State<Pool<ConnectionManager<PgConnection>>>, credentials: 
             }
         },
         Err(err) => {
-            println!("Pool dont work, check it, error message: {}", err.to_string()); // todo some logging?
+            eprintln!("Pool dont work, check it, error message: {}", err.to_string());
             (Status::BadRequest, json!({"error" : "Unfortunately, server cannot response due to database problem"}).to_string()) // server side problem?
         }
     }

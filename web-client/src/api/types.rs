@@ -2,13 +2,19 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Default, Clone, PartialEq, Eq, Debug)]
 pub struct Session{
-    token: String
+    pub(crate) token: String
 }
 
 #[derive(Serialize)]
 pub struct Credentials {
     pub username: String,
     pub password: String,
+}
+
+#[derive(Serialize)]
+pub struct CreatePost {
+    pub title: String,
+    pub description: String,
 }
 
 #[derive(Deserialize)]
@@ -29,3 +35,4 @@ pub struct Post {
     pub user_id: i32,
     pub bookmarked: bool
 }
+

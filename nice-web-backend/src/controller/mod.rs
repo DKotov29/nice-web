@@ -20,7 +20,6 @@ fn internal_error() -> Json<Value> {
 }
 
 pub fn init_pages(server: Rocket<Build>) -> Rocket<Build> {
-    let server = server.mount("/", routes![signin, signout, signup, showusers, createpost, removepost, bookmarkpost])
-        .register("/", catchers![internal_error]);
-    server
+    server.mount("/", routes![signin, signout, signup, showusers, createpost, removepost, bookmarkpost])
+        .register("/", catchers![internal_error])
 }

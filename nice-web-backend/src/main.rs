@@ -4,6 +4,7 @@ mod controller;
 mod model;
 mod schema;
 
+use std::sync::Arc;
 use diesel::r2d2::{ConnectionManager, Pool};
 use diesel::PgConnection;
 use dotenvy::dotenv;
@@ -25,18 +26,18 @@ async fn main() -> Result<(), rocket::Error> {
     let server = rocket::build()
         .manage(pool)
         .manage(session_manager)
-        .mount("/", FileServer::from("./static/"));
+        // .mount("/", FileServer::from("./static/"));
+        .mount("/", FileServer::from("./web-client/dist/"));
     controller::init_pages(server).launch().await?;
     Ok(())
 }
 
 fn establish_pool() -> DbPool {
     let url = std::env::var("DATABASE_URL").expect("DATABASE_URL must be set.");
-    println!("no problem by now");
     let manager = ConnectionManager::<PgConnection>::new(url);
     Pool::builder()
         // .test_on_check_out(true)
-        .max_size(2)
+        .max_size(1)
         .build(manager)
         .expect("Could not build connection pool")
 }

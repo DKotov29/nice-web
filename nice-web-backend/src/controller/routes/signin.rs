@@ -3,6 +3,7 @@ use diesel::PgConnection;
 use rocket::http::Status;
 use rocket::serde::json::Json;
 use rocket::State;
+
 use serde_json::{
     json,
     Value
@@ -44,7 +45,7 @@ pub fn signin(
             }
         }
         Err(err) => {
-            println!("Pool dont work, check it, error message: {}", err.to_string()); // todo some logging?
+            eprintln!("Pool dont work, check it, error message: {}", err.to_string());
             (
                 Status::BadRequest,
                 Json(json!({

@@ -1,9 +1,8 @@
+use bcrypt::{hash, verify, DEFAULT_COST};
 use diesel::pg::Pg;
 use diesel::{
-    Connection, ExpressionMethods, Insertable, QueryDsl, Queryable, RunQueryDsl, Selectable,
-    SelectableHelper,
+    Connection, ExpressionMethods, Insertable, QueryDsl, Queryable, RunQueryDsl, Selectable, SelectableHelper,
 };
-use bcrypt::{hash, verify, DEFAULT_COST};
 use serde::Serialize;
 
 pub use super::super::schema::*;
@@ -83,17 +82,13 @@ pub fn create_user_if_unique<T: Connection<Backend = Pg> + diesel::connection::L
                         .values((users::username.eq(user_name), users::password_hash.eq(pass.as_str())))
                         .execute(&mut connection)
                         .expect("problems with inserting new user");
+                    CreateUserResult::Ok
                 }
-                Err(_) => {
-                    return CreateUserResult::PasswordNotValidForHash;
-                }
+                Err(_) => CreateUserResult::PasswordNotValidForHash,
             }
         }
-        Some(_) => {
-            return CreateUserResult::SuchUserExists;
-        }
+        Some(_) => CreateUserResult::SuchUserExists,
     }
-    return CreateUserResult::Ok;
 }
 
 #[derive(Queryable, Selectable, Insertable, Serialize)]
@@ -107,16 +102,23 @@ pub struct Post {
     pub bookmarked: bool,
 }
 
-pub fn show_user_posts<T: Connection<Backend = Pg> + diesel::connection::LoadConnection>(mut connection: T, user_id: i32) -> Vec<Post> {
-    let user_posts = post::table
+pub fn show_user_posts<T: Connection<Backend = Pg> + diesel::connection::LoadConnection>(
+    mut connection: T,
+    user_id: i32,
+) -> Vec<Post> {
+    post::table
         .filter(post::user_id.eq(user_id))
         .order(post::bookmarked.desc())
         .load(&mut connection)
-        .expect("problems with getting user posts"); // todo possibly its bad idea and Result is more preferable
-    user_posts
+        .expect("problems with getting user posts") // todo possibly its bad idea and Result is more preferable
 }
 
-pub fn create_user_post<T: Connection<Backend = Pg> + diesel::connection::LoadConnection>(mut connection: T, user_id: i32, title: String, description: String) {
+pub fn create_user_post<T: Connection<Backend = Pg> + diesel::connection::LoadConnection>(
+    mut connection: T,
+    user_id: i32,
+    title: String,
+    description: String,
+) {
     diesel::insert_into(post::table)
         .values((
             post::user_id.eq(user_id),
@@ -127,15 +129,32 @@ pub fn create_user_post<T: Connection<Backend = Pg> + diesel::connection::LoadCo
         .expect("problems with inserting new post");
 }
 
-pub fn delete_post<T: Connection<Backend = Pg> + diesel::connection::LoadConnection>(mut connection: T, post_id: i32, user_id: i32) {
-    diesel::delete(post::table.filter(post::post_id.eq(post_id)).filter(post::user_id.eq(user_id)))
-        .execute(&mut connection)
-        .expect("problems with deleting post");
+pub fn delete_post<T: Connection<Backend = Pg> + diesel::connection::LoadConnection>(
+    mut connection: T,
+    post_id: i32,
+    user_id: i32,
+) {
+    diesel::delete(
+        post::table
+            .filter(post::post_id.eq(post_id))
+            .filter(post::user_id.eq(user_id)),
+    )
+    .execute(&mut connection)
+    .expect("problems with deleting post");
 }
 
-pub fn set_bookmark_post<T: Connection<Backend = Pg> + diesel::connection::LoadConnection>(mut connection: T, post_id: i32, user_id: i32, boool: bool) {
-    diesel::update(post::table.filter(post::post_id.eq(post_id)).filter(post::user_id.eq(user_id)))
-        .set(post::bookmarked.eq(boool))
-        .execute(&mut connection)
-        .expect("problems with deleting post");
+pub fn set_bookmark_post<T: Connection<Backend = Pg> + diesel::connection::LoadConnection>(
+    mut connection: T,
+    post_id: i32,
+    user_id: i32,
+    boool: bool,
+) {
+    diesel::update(
+        post::table
+            .filter(post::post_id.eq(post_id))
+            .filter(post::user_id.eq(user_id)),
+    )
+    .set(post::bookmarked.eq(boool))
+    .execute(&mut connection)
+    .expect("problems with deleting post");
 }

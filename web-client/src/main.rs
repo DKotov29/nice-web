@@ -2,8 +2,12 @@ mod api;
 mod components;
 
 use yew::prelude::*;
+use yew_hooks::use_local_storage;
 use yew_router::prelude::*;
 use yewdux::prelude::*;
+
+use yew_hooks::use_session_storage;
+use crate::api::types::Session;
 
 use components::{
     SignIn,
@@ -39,6 +43,14 @@ fn switch(routes: AppRoute) -> Html {
 
 #[function_component(App)]
 fn app() -> Html {
+    let (state, dispatch) = use_store::<State>();
+
+    let session = use_session_storage::<Session>("session".to_owned());
+
+    if let Some(session) = &*session {
+        dispatch.reduce_mut(|state| state.api.session = Some(session.clone()));
+    }
+
     html! {
         <div>
             <HashRouter>
