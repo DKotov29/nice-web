@@ -1,15 +1,14 @@
 use std::ops::Deref;
+
 use gloo::dialogs::alert;
-use wasm_bindgen::JsValue;
 use web_sys::{HtmlInputElement, HtmlTextAreaElement};
 use yew::prelude::*;
-use yew_hooks::{use_async, use_session_storage};
+use yew_hooks::use_session_storage;
 use yew_router::hooks::use_navigator;
 use yewdux::prelude::use_store;
-use crate::{AppRoute, State};
-use crate::api::types::{CreatePost, Post as ApiPost, Session};
-use crate::api::Api;
 
+use crate::api::types::{CreatePost, Post as ApiPost, Session};
+use crate::{AppRoute, State};
 
 #[derive(Properties, PartialEq)]
 pub struct PostProps {
@@ -18,7 +17,7 @@ pub struct PostProps {
     description: String,
     is_bookmarked: bool,
     delete_callback: Callback<i32>,
-    bookmark_callback: Callback<(i32, bool)>
+    bookmark_callback: Callback<(i32, bool)>,
 }
 
 #[function_component(Posts)]
@@ -28,7 +27,7 @@ pub fn posts() -> Html {
 
     if state.api.session.is_none() {
         navigator.push(&AppRoute::SignIn);
-        return html! {}
+        return html! {};
     }
 
     let title = use_node_ref();
@@ -46,7 +45,7 @@ pub fn posts() -> Html {
         Callback::from(move |_: ()| {
             let state = state.clone();
             let posts = posts.clone();
-            let loading = loading.clone();
+            let _loading = loading.clone();
 
             // loading.set(true);
 
@@ -54,7 +53,7 @@ pub fn posts() -> Html {
                 match state.api.get_posts().await {
                     Ok(user_posts) => {
                         posts.set(user_posts);
-                    },
+                    }
                     Err(err) => {
                         alert(&format!("Error: {}", err));
                     }
@@ -81,15 +80,15 @@ pub fn posts() -> Html {
 
             let create_post = CreatePost {
                 title: title.value(),
-                description: description.value()
+                description: description.value(),
             };
 
             wasm_bindgen_futures::spawn_local(async move {
                 match state.api.create_post(create_post).await {
                     Ok(_) => {
                         load_user_posts.emit(());
-                    },
-                    Err(err) => alert(&format!("Error: {}", err))
+                    }
+                    Err(err) => alert(&format!("Error: {}", err)),
                 }
             })
         })
@@ -112,9 +111,9 @@ pub fn posts() -> Html {
                     Ok(_) => {
                         stored_session.delete();
                         navigator.push(&AppRoute::SignIn);
-                        dispatch.
-                    },
-                    Err(err) => alert(&format!("Error: {}", err))
+                        dispatch.reduce_mut(|state| state.api.session = None);
+                    }
+                    Err(err) => alert(&format!("Error: {}", err)),
                 }
             })
         })
@@ -131,8 +130,8 @@ pub fn posts() -> Html {
                 match state.api.delete_post(id).await {
                     Ok(_) => {
                         load_user_posts.emit(());
-                    },
-                    Err(err) => alert(&format!("Error: {}", err))
+                    }
+                    Err(err) => alert(&format!("Error: {}", err)),
                 }
             });
         })
@@ -149,26 +148,29 @@ pub fn posts() -> Html {
                 match state.api.bookmark_post(id, bookmark).await {
                     Ok(_) => {
                         load_user_posts.emit(());
-                    },
-                    Err(err) => alert(&format!("Error: {}", err))
+                    }
+                    Err(err) => alert(&format!("Error: {}", err)),
                 }
             });
         })
     };
 
-
-    let posts = posts.deref().into_iter().map(|post| {
-        html! {
-            <Post
-                post_id={post.post_id.clone()}
-                title={post.title.clone()}
-                description={post.description.clone()}
-                delete_callback={delete_callback.clone()}
-                bookmark_callback={bookmark_callback.clone()}
-                is_bookmarked={post.bookmarked.clone()}
-            />
-        }
-    }).collect::<Html>();
+    let posts = posts
+        .deref()
+        .into_iter()
+        .map(|post| {
+            html! {
+                <Post
+                    post_id={post.post_id.clone()}
+                    title={post.title.clone()}
+                    description={post.description.clone()}
+                    delete_callback={delete_callback.clone()}
+                    bookmark_callback={bookmark_callback.clone()}
+                    is_bookmarked={post.bookmarked.clone()}
+                />
+            }
+        })
+        .collect::<Html>();
 
     let loading = loading.clone();
     html! {
@@ -196,7 +198,6 @@ pub fn posts() -> Html {
 
 #[function_component(Post)]
 pub fn post(props: &PostProps) -> Html {
-
     // let delete_callback = {
     //     Callback::from(move |_| {
     //         props.delete_callback.emit(props.post_id)

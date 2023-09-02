@@ -1,25 +1,18 @@
-use std::ops::Deref;
-use std::rc::Rc;
-use std::sync::Mutex;
-use gloo::console::console;
 use gloo::dialogs::alert;
-use yew::prelude::*;
-use wasm_bindgen::{JsCast, JsValue, UnwrapThrowExt};
 use web_sys::HtmlInputElement;
+use yew::prelude::*;
 use yew::{function_component, Html};
-use yew_hooks::use_async;
-use yew_router::hooks::use_navigator;
-use yewdux::prelude::{Dispatch, use_store};
-use crate::api::types::Credentials;
-use crate::{AppRoute, State};
-use yew_router::prelude::Link;
 use yew_hooks::use_session_storage;
+use yew_router::hooks::use_navigator;
+use yew_router::prelude::Link;
+use yewdux::prelude::use_store;
 
-use crate::api::types::Session;
+use crate::api::types::{Credentials, Session};
+use crate::{AppRoute, State};
 
 #[function_component(SignIn)]
 pub fn sign_in() -> Html {
-    let navigator = use_navigator().unwrap();
+    let _navigator = use_navigator().unwrap();
     // let mut status_message = Mutex::new(String::new());
 
     let (state, dispatch) = use_store::<State>();
@@ -44,15 +37,18 @@ pub fn sign_in() -> Html {
             let username = username.clone().cast::<HtmlInputElement>().unwrap();
             let password = password.clone().cast::<HtmlInputElement>().unwrap();
             wasm_bindgen_futures::spawn_local(async move {
-
-                match state.api.sign_in(Credentials {
-                    username: username.value(),
-                    password: password.value()
-                }).await {
+                match state
+                    .api
+                    .sign_in(Credentials {
+                        username: username.value(),
+                        password: password.value(),
+                    })
+                    .await
+                {
                     Ok(session) => {
                         dispatch.reduce_mut(|state| state.api.session = Some(session.clone()));
                         stored_session.set(session);
-                    },
+                    }
                     Err(err) => {
                         alert(&format!("{:?}", err));
                     }
@@ -63,7 +59,7 @@ pub fn sign_in() -> Html {
 
     html! {
         <>
-            if let Some(session) = &state.api.session {
+            if let Some(_session) = &state.api.session {
                 <p>{ "You’ve been signed in successfully!" }</p>
                 <Link<AppRoute> to={AppRoute::Posts}>
                     { "Show My Posts" }

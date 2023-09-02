@@ -1,6 +1,5 @@
-use std::error::Error;
 use std::fmt::{Display, Formatter};
-use std::sync::Mutex;
+
 use gloo::net::http::{Request, Response};
 
 use crate::api::types::{CreatePost, Credentials, ErrorResponse, Post, PostsResponse, Session};
@@ -17,7 +16,7 @@ pub enum ApiError {
     RequestError(gloo::net::Error),
     ResponseError(gloo::net::Error),
     ApiError(u16, String),
-    EmptySession
+    EmptySession,
 }
 
 impl Display for ApiError {
@@ -60,7 +59,7 @@ impl Api {
         let status = response.status();
 
         if !status.eq(&200) {
-            return Self::read_error(response).await
+            return Self::read_error(response).await;
         }
         Ok(())
     }
@@ -79,7 +78,7 @@ impl Api {
         let status = response.status();
 
         if !status.eq(&200) {
-            return Self::read_error(response).await
+            return Self::read_error(response).await;
         }
 
         let session = response
@@ -94,7 +93,7 @@ impl Api {
         let session = if let Some(session) = &self.session {
             session.token.clone()
         } else {
-            return Err(ApiError::EmptySession)
+            return Err(ApiError::EmptySession);
         };
 
         // TODO: find out how to replace domain from .env file
@@ -107,7 +106,7 @@ impl Api {
         let status = response.status();
 
         if !status.eq(&200) {
-            return Self::read_error(response).await
+            return Self::read_error(response).await;
         }
         Ok(())
     }
@@ -117,7 +116,7 @@ impl Api {
         let session = if let Some(session) = &self.session {
             session.token.clone()
         } else {
-            return Err(ApiError::EmptySession)
+            return Err(ApiError::EmptySession);
         };
 
         let response = Request::get("http://127.0.0.1:8000/showusers")
@@ -127,10 +126,13 @@ impl Api {
             .map_err(|err| ApiError::ResponseError(err))?;
 
         if !response.status().eq(&200) {
-            return Self::read_error(response).await
+            return Self::read_error(response).await;
         }
 
-        let posts = response.json::<PostsResponse>().await.map_err(|err| ApiError::ApiError(response.status(), err.to_string()))?;
+        let posts = response
+            .json::<PostsResponse>()
+            .await
+            .map_err(|err| ApiError::ApiError(response.status(), err.to_string()))?;
         Ok(posts.posts)
     }
 
@@ -138,7 +140,7 @@ impl Api {
         let session = if let Some(session) = &self.session {
             session.token.clone()
         } else {
-            return Err(ApiError::EmptySession)
+            return Err(ApiError::EmptySession);
         };
 
         let response = Request::post("http://127.0.0.1:8000/createpost")
@@ -150,7 +152,7 @@ impl Api {
             .map_err(|err| ApiError::ResponseError(err))?;
 
         if !response.status().eq(&200) {
-            return Self::read_error(response).await
+            return Self::read_error(response).await;
         }
 
         Ok(())
@@ -160,7 +162,7 @@ impl Api {
         let session = if let Some(session) = &self.session {
             session.token.clone()
         } else {
-            return Err(ApiError::EmptySession)
+            return Err(ApiError::EmptySession);
         };
 
         let response = Request::delete(&format!("http://127.0.0.1:8000/removepost/{}", post_id))
@@ -170,7 +172,7 @@ impl Api {
             .map_err(|err| ApiError::ResponseError(err))?;
 
         if !response.status().eq(&200) {
-            return Self::read_error(response).await
+            return Self::read_error(response).await;
         }
 
         Ok(())
@@ -180,7 +182,7 @@ impl Api {
         let session = if let Some(session) = &self.session {
             session.token.clone()
         } else {
-            return Err(ApiError::EmptySession)
+            return Err(ApiError::EmptySession);
         };
 
         let response = Request::post(&format!("http://127.0.0.1:8000/bookmarkpost/{}/{}", post_id, bookmark))
@@ -190,7 +192,7 @@ impl Api {
             .map_err(|err| ApiError::ResponseError(err))?;
 
         if !response.status().eq(&200) {
-            return Self::read_error(response).await
+            return Self::read_error(response).await;
         }
 
         Ok(())

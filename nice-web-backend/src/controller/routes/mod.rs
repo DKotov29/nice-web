@@ -1,9 +1,9 @@
 use rocket::serde::Deserialize;
 
-pub mod signin;
-pub mod signup;
-pub mod signout;
 pub mod posts;
+pub mod signin;
+pub mod signout;
+pub mod signup;
 
 #[derive(Deserialize, Debug)]
 #[serde(crate = "rocket::serde")]

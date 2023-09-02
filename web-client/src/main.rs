@@ -1,26 +1,19 @@
 mod api;
 mod components;
 
+use components::{Nav, Posts, SignIn};
 use yew::prelude::*;
-use yew_hooks::use_local_storage;
+use yew_hooks::use_session_storage;
 use yew_router::prelude::*;
 use yewdux::prelude::*;
 
-use yew_hooks::use_session_storage;
 use crate::api::types::Session;
-
-use components::{
-    SignIn,
-    Nav,
-    Posts
-};
 use crate::api::Api;
 use crate::components::SignUp;
 
-
 #[derive(Default, Clone, PartialEq, Eq, Store)]
 pub struct State {
-    api: Api
+    api: Api,
 }
 
 #[derive(Clone, Routable, PartialEq)]
@@ -37,13 +30,13 @@ fn switch(routes: AppRoute) -> Html {
     match routes {
         AppRoute::SignIn => html! { <SignIn/> },
         AppRoute::Posts => html! { <Posts/> },
-        _ => html! { <SignUp/> }
+        _ => html! { <SignUp/> },
     }
 }
 
 #[function_component(App)]
 fn app() -> Html {
-    let (state, dispatch) = use_store::<State>();
+    let (_state, dispatch) = use_store::<State>();
 
     let session = use_session_storage::<Session>("session".to_owned());
 

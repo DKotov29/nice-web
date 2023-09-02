@@ -1,8 +1,8 @@
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Default, Clone, PartialEq, Eq, Debug)]
-pub struct Session{
-    pub(crate) token: String
+pub struct Session {
+    pub(crate) token: String,
 }
 
 #[derive(Serialize)]
@@ -24,7 +24,7 @@ pub struct ErrorResponse {
 
 #[derive(Deserialize)]
 pub struct PostsResponse {
-    pub posts: Vec<Post>
+    pub posts: Vec<Post>,
 }
 
 #[derive(Deserialize, PartialEq)]
@@ -33,6 +33,5 @@ pub struct Post {
     pub title: String,
     pub description: String,
     pub user_id: i32,
-    pub bookmarked: bool
+    pub bookmarked: bool,
 }
-

@@ -1,6 +1,7 @@
 pub mod user;
 
 use std::time::Duration;
+
 use moka::sync::{Cache, CacheBuilder};
 use rand::RngCore;
 

@@ -18,19 +18,22 @@ pub fn signup(pool: &State<Pool<ConnectionManager<PgConnection>>>, credentials: 
     }
     match pool.get() {
         Ok(conn) => match create_user_if_unique(conn, credentials.username.as_str(), credentials.password.as_str()) {
-            CreateUserResult::Ok => {
-                (Status::Ok, json!({}).to_string())
-            }
-            CreateUserResult::SuchUserExists => {
-                (Status::BadRequest, json!({"error" : "This username is occupied, try another"}).to_string())
-            }
-            CreateUserResult::PasswordNotValidForHash => {
-                (Status::BadRequest, json!({"error" : "This password cannot be used. (Not valid for using in database)"}).to_string())
-            }
+            CreateUserResult::Ok => (Status::Ok, json!({}).to_string()),
+            CreateUserResult::SuchUserExists => (
+                Status::BadRequest,
+                json!({"error" : "This username is occupied, try another"}).to_string(),
+            ),
+            CreateUserResult::PasswordNotValidForHash => (
+                Status::BadRequest,
+                json!({"error" : "This password cannot be used. (Not valid for using in database)"}).to_string(),
+            ),
         },
         Err(err) => {
             eprintln!("Pool dont work, check it, error message: {}", err.to_string());
-            (Status::BadRequest, json!({"error" : "Unfortunately, server cannot response due to database problem"}).to_string()) // server side problem?
+            (
+                Status::BadRequest,
+                json!({"error" : "Unfortunately, server cannot response due to database problem"}).to_string(),
+            ) // server side problem?
         }
     }
 }

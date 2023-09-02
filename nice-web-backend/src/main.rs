@@ -4,7 +4,6 @@ mod controller;
 mod model;
 mod schema;
 
-use std::sync::Arc;
 use diesel::r2d2::{ConnectionManager, Pool};
 use diesel::PgConnection;
 use dotenvy::dotenv;

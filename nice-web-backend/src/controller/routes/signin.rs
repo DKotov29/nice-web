@@ -3,11 +3,7 @@ use diesel::PgConnection;
 use rocket::http::Status;
 use rocket::serde::json::Json;
 use rocket::State;
-
-use serde_json::{
-    json,
-    Value
-};
+use serde_json::{json, Value};
 
 use super::super::super::model::db::is_user_password_good_and_user_exists;
 use crate::controller::routes::Credentials;

@@ -1,14 +1,12 @@
-use std::sync::Arc;
-use rocket::request::FromRequest;
-use crate::model::db::{ User};
 use rocket::http::Status;
-use rocket::request::{Outcome};
+use rocket::request::{FromRequest, Outcome};
 use rocket::{Request, State};
 
+use crate::model::db::User;
 use crate::model::session::SessionManager;
 pub struct CachedUser {
     pub user: User,
-    pub session: u128
+    pub session: u128,
 }
 
 #[derive(Debug)]
@@ -31,8 +29,7 @@ impl<'r> FromRequest<'r> for CachedUser {
             // there's a one problem: every route will get cached user info, posiibly its not so bad
             let session_id = session.parse::<u128>();
             if let Ok(session_id) = session_id {
-                if let Some(user) = sessions.get_session(session_id)
-                {
+                if let Some(user) = sessions.get_session(session_id) {
                     return Outcome::Success(CachedUser {
                         user,
                         session: session_id,

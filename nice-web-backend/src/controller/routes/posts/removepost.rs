@@ -1,5 +1,3 @@
-use std::num::ParseIntError;
-
 use rocket::http::Status;
 use rocket::serde::json::Json;
 use rocket::State;
@@ -21,7 +19,7 @@ pub fn removepost(
                 delete_post(conn, post_id, cached_user.user.user_id);
                 (Status::Ok, Json(json!({})))
             }
-            Err(err) => (
+            Err(_err) => (
                 Status::BadRequest,
                 Json(json!({
                     "error": "Bad post id"
@@ -34,8 +32,7 @@ pub fn removepost(
                 Status::BadRequest,
                 Json(json!({
                     "error": "Unfortunately, server cannot response due to database problem"
-                })
-                ),
+                })),
             )
         }
     }

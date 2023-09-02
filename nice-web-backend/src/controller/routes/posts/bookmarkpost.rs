@@ -1,18 +1,19 @@
-use diesel::PgConnection;
 use diesel::r2d2::{ConnectionManager, Pool};
+use diesel::PgConnection;
 use rocket::http::Status;
 use rocket::serde::json::Json;
 use rocket::State;
 use serde_json::{json, Value};
-use crate::model::session::user::CachedUser;
+
 use crate::model::db::set_bookmark_post;
+use crate::model::session::user::CachedUser;
 
 #[post("/bookmarkpost/<post_id>/<set>")]
 pub fn bookmarkpost(
     pool: &State<Pool<ConnectionManager<PgConnection>>>,
     cached_user: CachedUser,
     post_id: &str,
-    set: &str
+    set: &str,
 ) -> (Status, Json<Value>) {
     match pool.get() {
         Ok(conn) => match (post_id.parse::<i32>(), set.parse::<bool>()) {
@@ -24,8 +25,7 @@ pub fn bookmarkpost(
                 Status::BadRequest,
                 Json(json!({
                     "error": "Bad post id or set boolean"
-                })
-                ),
+                })),
             ),
         },
         Err(err) => {
