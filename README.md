@@ -22,7 +22,7 @@ It has the following features:
 0. Do you have installed PostgreSQL? If not, follow this instructions https://www.postgresql.org/download/
 4. Do you have installed rust, cargo? If not, follow this instructions https://www.rust-lang.org/tools/install
 5. Do you have installed diesel? If not, execute command ``cargo install diesel_cli --no-default-features --features postgres`` 
-6. Also follow to this install instruction to install `trunk`: https://trunkrs.dev/#install
+6. Also follow to this install instruction to install `trunk` for web-client: https://yew.rs/docs/getting-started/introduction#install-webassembly-target
 
 
 ### After all
